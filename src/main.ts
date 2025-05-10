@@ -544,3 +544,37 @@ console.log(add(2, 3)); // 5
 // AddFunction - це тип функції, що приймає два числа та повертає число.
 // add - функція, яка реалізує цей тип.
 
+function myFunction<T>(value: T): T {
+  return value;
+}
+
+console.log(myFunction<string>("Hello")); // "Hello"
+console.log(myFunction<number>(42)); // 42
+
+function getFirstElement<T>(arr: T[]): T {
+  return arr[0];
+}
+
+console.log(getFirstElement<number>([10, 20, 30])); // 10
+console.log(getFirstElement<string>(["Alice", "Bob"])); // "Alice"
+
+
+
+
+
+
+
+
+
+/**
+ * *************************************************************************************************************
+ * 
+ * 06/05/2025 lesson-1
+//  * 
+//  */
+// console.log("06/05/2025 lesson-1");
+
+
+// let age = 5;
+
+// const numbers = [1, 2, 3]; 
