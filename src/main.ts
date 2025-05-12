@@ -68,8 +68,13 @@ import './style.css'
 // Приклад типізації змінної age яка буде зберігати число (тип number):
 
 let myAge: number = 47;
+
+// let myAge: number = "wow"; - ❌значення іншого типу викличе помилку 
 console.log(myAge);
-console.log("==калькудятор TS==");
+
+
+
+console.log("==калькулятор TS==");
 
 // calculator.ts
 
@@ -185,6 +190,7 @@ console.log("**********************************");
 console.log("====Виведення типів=====");
 
 //Якщо змінній при оголошенні присвоєно значення, TypeScript автоматично визначає її тип. Тому в багатьох випадках вказувати тип вручну немає необхідності. Це називається виведенням типів (type inference) і працює не тільки для примітивних значень, а й для масивів, об'єктів та функцій.
+
 
 const age5 = 40;         // TypeScript виводить тип як number
 console.log(age5);
@@ -307,7 +313,7 @@ const poly: User1 = {
   name: "Poly",
   email: "polyshmoly@com.ua"
 }; 
-console.log(poly.age); // ✅ Не буде помилки, оскільки age і email можeуть бути відсутніми
+console.log(poly.age); // ✅ Не буде помилки, оскільки age і email можуть бути відсутніми
 
 const jacob: User1 = {
   name: "Jacob",
@@ -384,17 +390,19 @@ console.log(numbers3);
 
 //numbers3.push("5"); 
 // ❌ Error: Argument of type 'string' is not assignable to parameter of type 'number'.
-
+numbers3.push(5, 6, 7);
 console.log(numbers3);
 
 // Також TypeScript не дозволяє звертатись до неіснуючих елементів без додаткових перевірок:
 
 
-
-const names3: string[] = ["Alice", "Bob"];
+const names3: string[] = ["Alice", "Bob", "Mango"];
+console.log(names3[0].toUpperCase());
 
 //console.log(names3[5].toUpperCase()); 
 // ❌ Error: Object is possibly 'undefined'. // тут всього два елементи з індексом 0 і 1.
+
+
 
 
 console.log("===Типізація масиву об'єктів===");
@@ -441,10 +449,15 @@ const numbers: number[] = [1, 2, 3, 4, 5];
 
 // ✅ TypeScript підказує, що у масивів є властивість length
 console.log(numbers.length);
+numbers.push(6);
+console.log(numbers.length);
+console.log(numbers);
+
+
 
 // ✅ TypeScript підказує, що у масивів є метод includes
-console.log(numbers.includes(6));
-
+console.log(numbers.includes(3));
+console.log(numbers.includes(7));
 // TypeScript знає, що num є числом і дозволяє математичні операції
 const doubleNumbers = numbers.map(num => num * 2);
 
