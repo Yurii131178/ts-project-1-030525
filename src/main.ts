@@ -470,19 +470,227 @@ console.log(doubleNumbers);
 //numbers.nonExistentMethod(); 
 // ❌ Error: Property 'nonExistentMethod' does not exist on type 'number[]'.
 
+//======================================================//
+//----chat gpt--- власні типи----------//
+//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+// Що таке Union (|)?
+// Union дозволяє змінній або параметру мати кілька можливих типів.
+
+let value: string | number;
+
+value = "hello"; // ✅ OK
+value = 123;     // ✅ OK
+// value = true;    // ❌ Error: boolean is not allowed
+
+// 📦 Приклад з типами
+
+type ApiStatus = "loading" | "success" | "error";
+
+function showStatus(status: ApiStatus) {
+  if (status === "loading") {
+    console.log("Завантаження...");
+  } else if (status === "success") {
+    console.log("Успіх!");
+  } else {
+    console.log("Помилка!");
+  }
+}
+
+showStatus("loading");
+showStatus("success");
+showStatus("error");
+
+
+// ============Union з інтерфейсами================
+
+interface Dog {
+  type: "dog";
+  bark(): void;
+}
+
+interface Cat {
+  type: "cat";
+  meow(): void;
+}
+
+type Animal = Dog | Cat;
+
+function makeSound(animal: Animal) {
+  if (animal.type === "dog") {
+    animal.bark();
+  } else {
+    animal.meow();
+  }
+}
+//.................................................//
+
+// 📦 Задача: Обробка типу доставки
+// Уяви, що користувач може вибрати один із способів доставки:
+// "courier" — кур'єрська доставка
+// "pickup" — самовивіз
+// "locker" — доставка у поштомат
+
+// ✍️ Завдання:
+// Створи тип DeliveryType з цими варіантами.
+// Створи функцію getDeliveryMessage(delivery: DeliveryType), яка повертає рядок:
+// "Ваше замовлення буде доставлено кур'єром" для "courier";
+// "Ви можете забрати замовлення самостійно" для "pickup";
+// "Замовлення буде доставлено у поштомат" для "locker".
+
+type DeliveryType = "courier" | "pickup" | "locker";
+
+function getDeliveryMessage(delivery: DeliveryType) {
+  if (delivery === "courier") {
+    return "Ваше замовлення буде доставлено кур'єром";
+  } else if (delivery === "pickup") {
+    return "Ви можете забрати замовлення самостійно";
+  } else
+    return "Замовлення буде доставлено у поштомат";
+}
+
+// ✅ Приклад виклику:
+
+
+console.log(getDeliveryMessage("pickup"));
+console.log(getDeliveryMessage("courier"));
+console.log(getDeliveryMessage("locker"));
+
+// => Замовлення буде доставлено у поштомат
+
+console.log("=========switch aletrnative================");
+
+// Ось кілька невеликих покращень, які зроблять код ще чистішим і надійнішим:
+
+// ✅ Покращена версія з switch (альтернатива if-else):
+
+type DeliveryType1 = "courier" | "pickup" | "locker";
+
+function getDeliveryMessage1(delivery: DeliveryType1): string {
+  switch (delivery) {
+    case "courier":
+      return "Ваше замовлення буде доставлено кур'єром";
+    case "pickup":
+      return "Ви можете забрати замовлення самостійно";
+    case "locker":
+      return "Замовлення буде доставлено у поштомат";
+  }
+}
+console.log(getDeliveryMessage1("locker"));
+console.log(getDeliveryMessage1("pickup"));
+console.log(getDeliveryMessage1("courier"));
+
+// ✍️ Завдання:
+// Створи інтерфейси Product та Category.
+
+// Створи тип CategoryResponse, що об’єднує HttpResponse і масив категорій.
+
+// Створи змінну categories з цими даними.
+
+// Виведи в консоль всі назви продуктів з категорії "Books".
+
+interface Product {
+  id: number;
+  title: string;
+  price: number;
+}
+
+interface Category {
+  categoryId: number;
+  name: string;
+  products: Product[];
+}
+
+interface HttpResponse {
+  status: number;
+  message: string;
+}
+
+type CategoryResponse = HttpResponse & {data: Category[]}
+
+const categories: CategoryResponse = 
+{
+  "status": 200,
+  "message": "Categories fetched",
+  "data": [
+    {
+      "categoryId": 1,
+      "name": "Electronics",
+      "products": [
+        { "id": 201, "title": "Smartphone", "price": 699 },
+        { "id": 202, "title": "Laptop", "price": 1200 }
+      ]
+    },
+    {
+      "categoryId": 2,
+      "name": "Books",
+      "products": [
+        { "id": 203, "title": "Clean Code", "price": 35 },
+        { "id": 204, "title": "You Don’t Know JS", "price": 28 }
+      ]
+    }
+  ]
+}
+
+console.log(categories.data);
+
+// ✅ 3. Вивід назв продуктів з категорії "Books"
+
+const booksCategory = categories.data.find(cat => cat.name === "Books");
+
+if (booksCategory) {
+  booksCategory.products.forEach(product => {
+    console.log(product.title);
+  });
+}
+
+// ✅ 3. Вивід назв продуктів і ціни з категорії "Electronics"
+
+const electronicCategory = categories.data.find(cat => cat.name === "Electronics");
+
+if (electronicCategory) {
+  electronicCategory.products.forEach(product => {
+    console.log(product.title, product.price);
+    
+  });
+}
+
+console.log("=============Типізація функцій================");
+
+// =============Типізація функцій================
+
+// TypeScript дозволяє вказувати типи аргументів і значення, яке повертає функція. Це допомагає уникнути помилок і зробити код більш передбачуваним.
 
 
 
+// Типізація аргументів
+
+// Аргументи функції можна типізувати так само, як і звичайні змінні:
+
+function greet1(name: string, age: number): void {
+  console.log(`Hello, my name is ${name} and I am ${age} years old.`);
+}
+
+greet1("Alice", 30); // ✅
+
+function greet2(name: string, age: number): void {
+  console.log(`Hello, I am Alice's dog ${name} and I am ${age} years old.`);
+}
+
+greet2("Mango", 5);
+
+// greet(25, "Alice"); 
+// ❌ Error: Argument of type 'number' is not assignable to parameter of type 'string'.
+
+// name: string – означає, що перший параметр name очікує рядок.
+// age: number – означає, що другий параметр age очікує число.
+// void – вказує, що функція не повертає значення. Тип значення, що повертається, вказується після списку аргументів.
 
 
+// Тип void у TypeScript використовується для позначення відсутності значення у функціях, що повертається.
 
-
-
-
-
-
-
-
+console.log("==Тип значення, яке повертає функція==");
 
 // Якщо функція повертає значення, його тип теж можна вказати (:number):
 
@@ -507,18 +715,27 @@ interface User {
 
 //Розглянемо задачу, де необхідно написати функцію, що отримує список користувачів та повертає імена цих користувачів у вигляді масиву рядків. Ось як ми можемо типізувати таку функцію:
 
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
 const getUserNames = (users: User[]): string[] => {
   return users.map((user) => user.name);
 };
 
 const userList: User[] = [
-  { id: 1, name: 'Alice' },
-  { id: 2, name: 'Bob' },
-  { id: 3, name: 'Charlie' },
+  { id: 1, name: 'Alice', email: 'alib@com' },
+  { id: 2, name: 'Bob', email: 'bob@com' },
+  { id: 3, name: 'Charlie', email: 'cha@com' },
+  { id: 4, name: 'Poly', email: 'poly@com'},
 ];
 
 const names = getUserNames(userList);
 console.log(names); // ['Alice', 'Bob', 'Charlie']
+console.log();
+
 
 //У цьому прикладі функція getUserNames приймає масив об'єктів типу User та повертає масив рядків.
 
@@ -539,8 +756,34 @@ greet("Alice", 30); // ✅
 greet("Bob"); // ✅
 
 //greet("Jacob", true); // ❌
+////////////////////////////////////////////////////////
+//////CHAT GPT TASK//////////////////
+
+// Напиши функцію introduce, яка приймає:
+// name: string — ім'я (обов’язковий параметр)
+// city?: string — назва міста (необов’язковий параметр)
+// Функція повинна виводити в консоль:
+// Якщо місто передано:
+// Hi, I'm {name} from {city}.
+// Якщо місто не передано:
+// Hi, I'm {name}.
+
+function introduce(name: string, city?: string) {
+  if (city !== undefined) {
+    console.log(`Hi, I'm ${name} from ${city}`);    
+  } else {
+    console.log(`Hi, I'm ${name}`);
+    
+  }
+}
+
+// ✅ Приклади виклику:
+introduce("Emma", "London"); // Hi, I'm Emma from London.
+introduce("Liam");           // Hi, I'm Liam.
+// introduce("Noah", 123);   // ❌ Помилка: тип не збігається
 
 //*****************************************//
+console.log("===Function Type (Тип функції)===");
 
 // Function Type (Тип функції)
 
@@ -557,6 +800,8 @@ console.log(add(2, 3)); // 5
 // AddFunction - це тип функції, що приймає два числа та повертає число.
 // add - функція, яка реалізує цей тип.
 
+// це не просто generics, а ще й функції з generic типом (function type with generics).
+
 function myFunction<T>(value: T): T {
   return value;
 }
@@ -570,6 +815,8 @@ function getFirstElement<T>(arr: T[]): T {
 
 console.log(getFirstElement<number>([10, 20, 30])); // 10
 console.log(getFirstElement<string>(["Alice", "Bob"])); // "Alice"
+
+
 
 
 
